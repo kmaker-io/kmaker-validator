@@ -14,7 +14,7 @@ install:
 
 # Run unit tests
 test:
-	$(MVN) test
+	$(MVN) test site
 
 # Run Checkstyle validation
 checkstyle:
