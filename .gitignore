@@ -32,6 +32,13 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/checkstyle-idea.xml
+.idea/encodings.xml
+.idea/git_toolbox_blame.xml
+.idea/misc.xml
+.idea/uiDesigner.xml
+.idea/vcs.xml
+.idea
 *.iws
 *.iml
 *.ipr
