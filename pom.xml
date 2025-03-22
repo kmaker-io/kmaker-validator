@@ -31,7 +31,7 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/kmaker-io/kmaker-validator.git</connection>
+        <connection>scm:git:git://github.com/kmaker-io/kmaker-validator.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:kmaker-io/kmaker-validator.git</developerConnection>
         <url>https://github.com/kmaker-io/kmaker-validator</url>
     </scm>
@@ -39,11 +39,11 @@
     <distributionManagement>
         <snapshotRepository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
 
@@ -121,6 +121,15 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.7.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>ossrh</publishingServerId>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-site-plugin</artifactId>
