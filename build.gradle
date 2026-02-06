@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'checkstyle'
-    id 'maven-publish'
+    id "com.vanniktech.maven.publish" version "0.36.0"
 }
 
 repositories {
@@ -68,11 +68,40 @@ test {
     useJUnitPlatform()
 }
 
+// Docs: https://vanniktech.github.io/gradle-maven-publish-plugin/central/
+mavenPublishing {
+    // 1. Tell the plugin what to publish
+    configureBasedOnAppliedPlugins()
 
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
+    // 2. Deployment Targets (Replaces your repositories block)
+    // For the new Central Portal (central.sonatype.com)
+    publishToMavenCentral(true)
+
+    // 3. Signing (Replaces your signing block)
+    signAllPublications()
+
+    // 4. POM Metadata (The plugin needs this to generate the POM)
+    pom {
+        name = 'Kmaker Validator'
+        description = 'A validation library built on top of Hibernate Validator, providing custom constraints for common use cases. Designed to reduce redundant validation logic by addressing gaps in Hibernate Validator\'s built-in constraints, based on real-world experience.'
+        url = 'https://github.com/kmaker-io/kmaker-validator'
+        licenses {
+            license {
+                name = 'Apache 2.0'
+                url = 'https://www.apache.org/licenses/LICENSE-2.0.html'
+            }
+        }
+        developers {
+            developer {
+                id = 'yongan.touch@kmaker.io'
+                name = 'TOUCH Yong An'
+                email = 'yongan.touch@kmaker.io'
+            }
+        }
+        scm {
+            connection = 'scm:git:git://github.com/kmaker-io/kmaker-validator.git'
+            developerConnection = 'scm:git:ssh://github.com:kmaker-io/kmaker-validator.git'
+            url = 'https://github.com/kmaker-io/kmaker-validator'
         }
     }
 }
