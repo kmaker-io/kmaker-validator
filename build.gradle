@@ -1,0 +1,78 @@
+plugins {
+    id 'java-library'
+    id 'checkstyle'
+    id 'maven-publish'
+}
+
+repositories {
+    mavenCentral()
+}
+
+description = 'io.kmaker:kmaker-validator'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.release = 17
+}
+
+checkstyle {
+    toolVersion = "13.1.0"
+}
+
+tasks.withType(Checkstyle).configureEach {
+    reports {
+        xml.required = false
+        html.required = true
+        sarif.required = true
+    }
+}
+
+tasks.withType(Javadoc).configureEach {
+    options {
+        // This stops the "warning: no comment" and HTML syntax messages.
+        addStringOption('Xdoclint:none', '-quiet')
+    }
+}
+
+ext {
+    commonsBeanutilsVersion = "1.11.0"
+    jakartaElApiVersion = "6.0.1"
+    commonsTextVersion = "1.15.0"
+    doxiaSiteRendererVersion = "2.0.0"
+    expresslyVersion = "6.0.0-M1"
+    hibernateValidatorVersion = "8.0.2.Final"
+    hibernateValidatorProcessorVersion = "8.0.2.Final"
+    junitBomVersion = "5.10.0"
+}
+
+dependencies {
+    api "jakarta.el:jakarta.el-api:${jakartaElApiVersion}"
+    api "org.glassfish.expressly:expressly:${expresslyVersion}"
+    implementation "org.hibernate.validator:hibernate-validator:${hibernateValidatorVersion}"
+    implementation "commons-beanutils:commons-beanutils:${commonsBeanutilsVersion}"
+    implementation "org.apache.commons:commons-text:${commonsTextVersion}"
+
+    annotationProcessor "org.hibernate.validator:hibernate-validator-annotation-processor:${hibernateValidatorProcessorVersion}"
+
+    testImplementation platform("org.junit:junit-bom:${junitBomVersion}")
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+        }
+    }
+}
